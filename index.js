@@ -6,67 +6,47 @@
 const {createStore}= require ("redux")
 
 // constant
-const INCREMENT = "INCREMENT"
-const DECREMENT = "DECREMENT"
+
+const INCREMENT_BY_VALUE = "INCREMENT_BY_VALUE";
 const RESET = "RESET"
+const ADD_USER = "add user"
 
 const initialState = {
-  count:0
+  users:["hello"],
+  count:1
 }
 
-const incrementCounterAction =()=>{
-  return{
-    type: INCREMENT,
-  }
-}
-
-
-const decrementCounterAction =()=>{
+const addUser =(user)=>{
   return {
-    type: DECREMENT,
+    type: ADD_USER,
+    payload: user,
   };
 }
 
 
-const resetCounterAction =()=>{
-  return {
-    type: RESET,
-  };
-}
 
 // creating reducer
 
-const counterReducer = (state=initialState,action)=>{
-  switch(action.type){
-    case INCREMENT:
+const userReducer = (state=initialState,action)=>{
+  switch (action.type) {
+  
+    case ADD_USER:
       return {
-        ...state,
-        count:state.count +1,
-      }
-    case DECREMENT:
-      return {
-        ...state,
-        count:state.count - 1,
-      }
-    case RESET:
-      return {
-        ...state,
-        count:0,
-      }
-      default:state;
+        users:[...state.users , action.payload],
+        count: state.count + 1,
+      };
+    default:
+      state;
   }
 }
 
 
 //Store
-const store = createStore(counterReducer)
+const store = createStore(userReducer)
 store.subscribe(()=>{
   console.log(store.getState());
 })
 
-store.dispatch(incrementCounterAction())
-store.dispatch(incrementCounterAction())
-store.dispatch(decrementCounterAction());
-store.dispatch(decrementCounterAction());
-store.dispatch(incrementCounterAction())
-store.dispatch(incrementCounterAction())
+store.dispatch(addUser("booss"))
+store.dispatch(addUser("gmmm"))
+store.dispatch(addUser("gmmm22222222"))
